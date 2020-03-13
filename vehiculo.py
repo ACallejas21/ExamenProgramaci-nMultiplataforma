@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-# Programa: Examen II Parcial
+# Programa: Examen II Parcial // clase vehiculo
 # Autor: Akdiel Callejas Amador
 # Fecha 13/03/20
 
