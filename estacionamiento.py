@@ -32,34 +32,24 @@ class Estacionamiento:
     def calcular_tarifa(self, placa):
         """ Se encarga de calcular el la tarifa cuando el vehículo sale. """
         vehiculo = self.buscar_vehículo(placa)
-
+        
         if vehiculo:
             hora_aleatoria = random.randint(1,3)
-            hora_salida = datetime.now + timedelta(hours=hora_aleatoria)
+            self.horaSalida = datetime.now() + timedelta(hours=hora_aleatoria)
 
             if vehiculo.tipo_vehiculo == "automovil" or vehiculo.tipo_vehiculo == "automóvil":
                 subtotal = 20
-                if hora_salida >= vehiculo.hora_ingreso_vehiculo:
-                    total = subtotal + ((int(hora_salida) - int(vehiculo.hora_ingreso_vehiculo)) * 
-                                        self.descuento_hora(vehiculo.tipo_vehiculo))
+                total = (hora_aleatoria - 1) * 0.20 + subtotal
+                return total
             elif vehiculo.tipo_vehiculo == "motocicleta":
                 subtotal = 10
-                if hora_salida >= vehiculo.hora_ingreso_vehiculo:
-                    total = subtotal + ((int(hora_salida) - int(vehiculo.hora_ingreso_vehiculo)) * 
-                                        self.descuento_hora(vehiculo.tipo_vehiculo))
+                total = (hora_aleatoria -1) * 0.10 + subtotal
             return total
         else:
             print("el vehículo no ha sido encontrado")
 
 
-    def descuento_hora(self, tipo):
-        """ hace el descuento correspondiente por hora """
-        if tipo == "automovil" or tipo == "automóvil":
-            descuento = 20 * 0.20
-        elif tipo == "motocicleta":
-            descuento = 10 * 0.10
-
-    def buscar_vehículo(self,placa):
+    def buscar_vehículo(self, placa):
         """ Busca entre los vehículos en el estacionamineto si existe una misma placa. """
         for vehiculo in self.lista_estacionamiento:
             if str(vehiculo.placa_vehiculo) == str(placa):
@@ -67,17 +57,13 @@ class Estacionamiento:
         else:
             print("No se ha encontrado el vehículo.")
 
-    def salida_vehiculo(self, placa):
+    def salida_vehiculo(self):
         """ Reguistra la salida de un ehiculo y calcula el ticket """
         placa = input("Ingrese la placa del veículo: ")
-        total = self.calcular_tarifa(placa)
-
         vehiculo = self.buscar_vehículo(placa)
         
         if vehiculo:
             vehiculo.estado_vehiculo = False
-
-        if total:
-            print("el total a pagar es: {o}".format(total))
+            print("el total a pagar es: {0}".format(self.calcular_tarifa(placa)))
         else:
             print("No se puede realizar el cobro.")
